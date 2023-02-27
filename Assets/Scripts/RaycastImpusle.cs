@@ -2,6 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+namespace WipeOut
+{
+    
+
 public class RaycastImpusle : MonoBehaviour
 {
     public float hitForce = 500;
@@ -46,4 +50,5 @@ public class RaycastImpusle : MonoBehaviour
         }
         
     }
+}
 }

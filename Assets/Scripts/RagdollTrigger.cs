@@ -1,7 +1,14 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+
+using Unity.VisualScripting;
+
 using UnityEngine;
+
+namespace WipeOut
+{
+	
 
 public class RagdollTrigger : MonoBehaviour
 {
@@ -11,5 +18,7 @@ public class RagdollTrigger : MonoBehaviour
 		if(ragdoll != null)
 			ragdoll.ragdollOn = true;
 	}
-	
+
+
+}
 }
