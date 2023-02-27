@@ -22,7 +22,7 @@ namespace WipeOut
             set
             {
                 cc.enabled = !value;
-                cameraController.canTurn = !value;
+                //cameraController.canTurn = !value;
                 animator.enabled = !value;
                 foreach(Rigidbody rb in rigidbodies)
                     rb.isKinematic = !value;
@@ -33,7 +33,7 @@ namespace WipeOut
         }
 
         // Start is called before the first frame update
-        void Start()
+        private void Start()
         {
             cameraController = Camera.main.GetComponent<CameraController>();
             animator = GetComponent<Animator>();
@@ -46,11 +46,14 @@ namespace WipeOut
 
         private void Update()
         {
-            if(Input.GetKeyDown(KeyCode.F) && rigidbodies[0].IsSleeping() && ragdollOn)
+            if(Input.GetKeyDown(KeyCode.F) && ragdollOn)
             {
+                for(int i = 0; i < rigidbodies.Count; i++)
+                {
+                    if(rigidbodies[i].IsSleeping()) 
+                        continue;
+                }
                 
-                transform.position = rigidbodies[0].position;
-                ragdollOn = false;
             }
         }
     }
