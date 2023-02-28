@@ -24,6 +24,7 @@ namespace WipeOut
         public Vector3 hitDirection;
         private Ragdoll ragdoll = null;
 
+        public Vector3 repsawnPoint;
 
         void OnControllerColliderHit(ControllerColliderHit hit)
         {
