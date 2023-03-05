@@ -1,21 +1,23 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-
-using Unity.VisualScripting;
-
 using UnityEngine;
 
 namespace WipeOut
 {
-	public class RedBalls : MonoBehaviour
+
+
+	public class EndVent : MonoBehaviour
 	{
+		public GameObject particles;
+		public Airvent airVent;
+
 		private void OnTriggerEnter(Collider other)
 		{
 			if(other.CompareTag("Player"))
 			{
-				other.GetComponent<CharacterMover>().velocity = -other.GetComponent<CharacterMover>().velocity * 1;
-
+				particles.SetActive(false);
+				airVent.enabled = false;
 			}
 		}
 	}

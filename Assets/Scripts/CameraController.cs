@@ -28,19 +28,22 @@ namespace WipeOut
 
         void Update()
         {
-
-            // right drag rotates the camera
-            if(Input.GetMouseButton(1) && canTurn)
+            if(Input.GetMouseButton(1))
             {
-                Vector3 angles = transform.eulerAngles;
-                float dx = -Input.GetAxis("Mouse Y");
-                float dy = Input.GetAxis("Mouse X");
+                if(canTurn)
+                {
+                    Vector3 angles = transform.eulerAngles;
+                    float dx = -Input.GetAxis("Mouse Y");
+                    float dy = Input.GetAxis("Mouse X");
 
-                angles.x = Mathf.Clamp(angles.x + dx * speed * Time.deltaTime, 0, 70);
+                    angles.x = Mathf.Clamp(angles.x + dx * speed * Time.deltaTime, 0, 70);
 
-                angles.y += dy * speed * Time.deltaTime;
-                transform.eulerAngles = angles;
+                    angles.y += dy * speed * Time.deltaTime;
+                    transform.eulerAngles = angles;
+                } 
             }
+            // right drag rotates the camera
+       
 
             RaycastHit hit;
 

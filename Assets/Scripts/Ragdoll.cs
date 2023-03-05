@@ -16,11 +16,10 @@ namespace WipeOut
 		private CharacterController cc = null;
 		private CameraController cameraController = null;
 
-		private float getUpCooldown = 30.0f;
 		public TextMeshProUGUI getUpText;
 		[SerializeField] private GameObject hips;
 		public List<Rigidbody> rigidbodies = new List<Rigidbody>();
-		private bool canGetUp;
+		public bool canGetUp;
 
 		public bool ragdollOn
 		{
@@ -50,26 +49,32 @@ namespace WipeOut
 
 		private IEnumerator GetUp()
 		{
+			canGetUp = true;
 			yield return new WaitForSeconds(3.5f);
 
-			getUpText.enabled = true;
-			canGetUp = true;
+			if(ragdollOn)
+				getUpText.enabled = true;
+
 		}
 
 		private void Update()
 		{
-			if(ragdollOn)
+			if(ragdollOn && !canGetUp)
 			{
 				StartCoroutine(GetUp());
 			}
 
-			if(canGetUp && Input.GetKeyDown(KeyCode.F))
+			if(getUpText.enabled && Input.GetKeyDown(KeyCode.F))
 			{
+				getUpText.enabled = false;
+				
 				canGetUp = false;
 				GetComponent<Ragdoll>().transform.position = rigidbodies[0].position;
 				ragdollOn = false;
-				getUpText.enabled = false;
 			}
+
+			
+			//gameObject.layer = ragdollOn ? LayerMask.NameToLayer("Player") : LayerMask.NameToLayer("Ignore Raycast");
 		}
 	}
 }
