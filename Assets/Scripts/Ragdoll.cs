@@ -16,6 +16,7 @@ namespace WipeOut
 		private CharacterController cc = null;
 		private CameraController cameraController = null;
 
+		public BlackHole blackHole;
 		public TextMeshProUGUI getUpText;
 		[SerializeField] private GameObject hips;
 		public List<Rigidbody> rigidbodies = new List<Rigidbody>();
@@ -52,7 +53,7 @@ namespace WipeOut
 			canGetUp = true;
 			yield return new WaitForSeconds(3.5f);
 
-			if(ragdollOn)
+			if(ragdollOn && !blackHole.hasMoved)
 				getUpText.enabled = true;
 
 		}
@@ -64,7 +65,7 @@ namespace WipeOut
 				StartCoroutine(GetUp());
 			}
 
-			if(getUpText.enabled && Input.GetKeyDown(KeyCode.F))
+			if(getUpText.enabled && Input.GetKeyDown(KeyCode.F) && !blackHole.hasMoved)
 			{
 				getUpText.enabled = false;
 				

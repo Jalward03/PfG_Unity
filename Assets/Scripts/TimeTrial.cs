@@ -16,6 +16,8 @@ namespace WipeOut
         public TextMeshProUGUI minutes;
         public TextMeshProUGUI seconds;
 
+        public BlackHole blackHole;
+
         private bool hasFinished;
         private bool addingSecond;
         private int m_hours;
@@ -62,6 +64,11 @@ namespace WipeOut
                     m_minutes = 0;
                     m_hours++;
                 }
+            }
+
+            if(hasFinished)
+            {
+                blackHole.enabled = true;
             }
 
 

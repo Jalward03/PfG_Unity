@@ -20,6 +20,7 @@ namespace WipeOut
 		public Vector3 hitDirection;
 		private Ragdoll ragdoll = null;
 		public bool canMove = true;
+		public BlackHole blackHole;
 
 		public Vector3 repsawnPoint;
 
@@ -78,7 +79,9 @@ namespace WipeOut
 			if(isGrounded && velocity.y < 0)
 				velocity.y = 0;
 
-			velocity += Physics.gravity * Time.fixedDeltaTime;
+			if(!blackHole.hasMoved)
+				velocity += Physics.gravity * Time.fixedDeltaTime;
+			
 
 			if(!isGrounded)
 				hitDirection = Vector3.zero;
@@ -94,7 +97,8 @@ namespace WipeOut
 			}
 
 
-			characterController.Move(velocity * Time.fixedDeltaTime);
+			if(characterController) 
+				characterController.Move(velocity * Time.fixedDeltaTime);
 
 
 			isGrounded = characterController.isGrounded;
