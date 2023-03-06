@@ -1,43 +1,49 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+
 using UnityEngine;
 
 public class Pushing : MonoBehaviour
 {
-   // Start is called before the first frame update
+	// Start is called before the first frame update
 
-   public Animator animator;
-   public CharacterController cc;
+	public Animator animator;
+	public CharacterController cc;
 
-   public GameObject box;
-   private bool isPushing;
+	public GameObject box;
+	private bool isPushing;
 
-   private void Awake()
-   {
-       
-       animator = GetComponent<Animator>();
-       cc = GetComponent<CharacterController>();
+	private void Awake()
+	{
+		animator = GetComponent<Animator>();
+		cc = GetComponent<CharacterController>();
+	}
 
-   }
+	// Update is called once per frame
+	void FixedUpdate()
+	{
+		Ray ray = new Ray(cc.transform.position, cc.transform.forward);
+		RaycastHit hit;
+		if(Physics.Raycast(ray, out hit, 3))
+		{
+			if(hit.transform.CompareTag("Box"))
+			{
+				hit.transform.GetComponent<Rigidbody>().AddForce(ray.direction * 5f, ForceMode.Acceleration);
+				animator.SetBool("Pushing", true);
 
-   // Update is called once per frame
-    void FixedUpdate()
-    {
-        Ray ray = new Ray(cc.transform.position, cc.transform.forward);
-        RaycastHit hit;
-        if(Physics.Raycast(ray, out hit, 3))
-        {
-            if(hit.transform.CompareTag("Box"))
-            {
-	            hit.transform.GetComponent<Rigidbody>().AddForce(ray.direction * 5f, ForceMode.Acceleration);
-                animator.SetBool("Pushing", true);
-            }
-        }
-        else
-        {
-            animator.SetBool("Pushing", false);
-        }
-        
-    }
+			}
+			else if(hit.transform.CompareTag("Plank"))
+			{
+				hit.transform.GetComponent<Rigidbody>().AddForce(ray.direction * 1.5f, ForceMode.Impulse);
+				animator.SetBool("Pushing", true);
+
+			}
+
+		}
+		else
+		{
+			animator.SetBool("Pushing", false);
+		}
+	}
 }

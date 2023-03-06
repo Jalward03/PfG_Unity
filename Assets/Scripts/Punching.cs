@@ -22,8 +22,8 @@ namespace WipeOut
 		{
 			if(collision.gameObject.CompareTag("Player"))
 			{
-				
-				collision.gameObject.GetComponent<Ragdoll>().ragdollOn = true;
+				if(collision.gameObject.GetComponent<Ragdoll>()) 
+					collision.gameObject.GetComponent<Ragdoll>().ragdollOn = true;
 				//collision.gameObject.GetComponent<CharacterController>().enabled = false;
 				//collision.gameObject.GetComponentInParent<CharacterController>().enabled = false;
 			}

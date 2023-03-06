@@ -2,6 +2,8 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 
+using TMPro;
+
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -15,6 +17,8 @@ namespace WipeOut
 		private bool hasUsed;
 		public GameObject player;
 
+		public TimeTrial tt;
+		
 		private void OnTriggerEnter(Collider other)
 		{
 			if(other.CompareTag("Player"))
@@ -31,13 +35,15 @@ namespace WipeOut
 					hasUsed = true;
 					player.GetComponent<CharacterController>().enabled = true;
 
+					tt.m_seconds += 15;
 				}
 				else if(!hasUsed)
 				{
 					player.GetComponent<CharacterMover>().repsawnPoint = transform.position;
 				}
+				
 			}
-			else if(other.CompareTag("Box"))
+			else if(other.CompareTag("Box") || other.CompareTag("Plank"))
 			{
 				if(isWater)
 				{
@@ -49,6 +55,9 @@ namespace WipeOut
 				}
 
 			}
+			
 		}
+
+	
 	}
 }

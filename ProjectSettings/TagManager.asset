@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Obstacle
   - Box
+  - Plank
   layers:
   - Default
   - TransparentFX
