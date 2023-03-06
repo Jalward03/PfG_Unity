@@ -11,7 +11,6 @@ public class Pushing : MonoBehaviour
 	public Animator animator;
 	public CharacterController cc;
 
-	public GameObject box;
 	private bool isPushing;
 
 	private void Awake()

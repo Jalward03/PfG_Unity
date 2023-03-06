@@ -6,6 +6,7 @@ using System.Xml;
 using UnityEditor.Rendering;
 
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 namespace WipeOut
 {
@@ -19,6 +20,8 @@ namespace WipeOut
 		public Camera cam;
 		public Transform newCameraPos;
 		public bool finishedMoving;
+
+		public Canvas hud;
 
 		private void OnTriggerEnter(Collider other)
 		{
@@ -57,6 +60,9 @@ namespace WipeOut
 				t += Time.deltaTime;
 			}
 
+			Cursor.lockState = CursorLockMode.None;
+			Cursor.visible = true;
+			SceneManager.LoadScene("Menu");
 		}
 		private IEnumerator StartBlackHole()
 		{
@@ -108,5 +114,7 @@ namespace WipeOut
 				ragdoll.AddForce(playerToBlackHole * 200.0f, ForceMode.Acceleration);	
 			}
 		}
+
+		
 	}
 }

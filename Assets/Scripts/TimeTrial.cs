@@ -16,6 +16,7 @@ namespace WipeOut
         public TextMeshProUGUI minutes;
         public TextMeshProUGUI seconds;
 
+        public Canvas menu;
         public BlackHole blackHole;
 
         private bool hasFinished;
@@ -25,6 +26,11 @@ namespace WipeOut
 
         public int m_seconds;
         // Start is called before the first frame update
+
+        private void Start()
+        {
+            menu.enabled = false;
+        }
 
         private void OnTriggerEnter(Collider other)
         {
@@ -72,9 +78,10 @@ namespace WipeOut
             }
 
 
-            hours.text = m_hours.ToString();
-            minutes.text = m_minutes.ToString();
-            seconds.text = m_seconds.ToString();
+            hours.text = m_hours < 10 ? $"0{m_hours.ToString()}" : m_hours.ToString();
+            minutes.text = m_minutes < 10 ? $"0{m_minutes.ToString()}" : m_minutes.ToString();
+            seconds.text = m_seconds < 10 ? $"0{m_seconds.ToString()}" : m_seconds.ToString();
+            
         }
     }
 }

@@ -97,7 +97,7 @@ namespace WipeOut
 			}
 
 
-			if(characterController) 
+			if(characterController.enabled) 
 				characterController.Move(velocity * Time.fixedDeltaTime);
 
 
