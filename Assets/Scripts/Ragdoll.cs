@@ -28,7 +28,6 @@ namespace WipeOut
 			set
 			{
 				cc.enabled = !value;
-				//cameraController.canTurn = !value;
 				animator.enabled = !value;
 				foreach(Rigidbody rb in rigidbodies)
 					rb.isKinematic = !value;
@@ -50,12 +49,14 @@ namespace WipeOut
 
 		private IEnumerator GetUp()
 		{
+			
+			// Waits 3 seconds before letting player get up
 			canGetUp = true;
+
 			yield return new WaitForSeconds(3.5f);
 
 			if(ragdollOn && !blackHole.hasMoved)
 				getUpText.enabled = true;
-
 		}
 
 		private void Update()
@@ -65,17 +66,15 @@ namespace WipeOut
 				StartCoroutine(GetUp());
 			}
 
+			// Teleports the player a little bit in the air and ragdoll is turned off
 			if(getUpText.enabled && Input.GetKeyDown(KeyCode.F) && !blackHole.hasMoved)
 			{
 				getUpText.enabled = false;
-				
+
 				canGetUp = false;
 				GetComponent<Ragdoll>().transform.position = rigidbodies[0].position;
 				ragdollOn = false;
 			}
-
-			
-			//gameObject.layer = ragdollOn ? LayerMask.NameToLayer("Player") : LayerMask.NameToLayer("Ignore Raycast");
 		}
 	}
 }

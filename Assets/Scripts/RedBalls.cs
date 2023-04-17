@@ -14,9 +14,8 @@ namespace WipeOut
 		{
 			if(other.CompareTag("Player"))
 			{
-				if(other.GetComponent<CharacterMover>()) 
+				if(other.GetComponent<CharacterMover>())
 					other.GetComponent<CharacterMover>().velocity = -other.GetComponent<CharacterMover>().velocity * 1;
-
 			}
 		}
 	}

@@ -44,18 +44,16 @@ namespace WipeOut
 			moveInput.y = Input.GetAxis("Vertical");
 			jumpInput = Input.GetButton("Jump");
 
-			animator.SetFloat("Forwards", moveInput.y);
 			animator.SetFloat("Left", moveInput.x);
+			animator.SetFloat("Forwards", moveInput.y);
 			animator.SetBool("Jump", !isGrounded);
 		}
-
 
 		// Update is called once per frame
 		private void FixedUpdate()
 		{
 			Vector3 delta;
 			// find the horizontal unit vector facing forward from the camera
-
 			Vector3 camForward = cam.forward;
 			camForward.y = 0;
 			camForward.Normalize();
@@ -64,7 +62,7 @@ namespace WipeOut
 			Vector3 camRight = cam.right;
 			delta = (moveInput.x * cam.right + moveInput.y * camForward) * movementSpeed;
 
-
+			// Disables turning the player in ragdoll
 			if(!ragdoll.ragdollOn)
 				transform.forward = camForward;
 
@@ -82,7 +80,6 @@ namespace WipeOut
 
 			if(!blackHole.hasMoved)
 				velocity += Physics.gravity * Time.fixedDeltaTime;
-			
 
 			if(!isGrounded)
 				hitDirection = Vector3.zero;
@@ -97,10 +94,8 @@ namespace WipeOut
 					velocity -= 0.2f * horizontalHitDirection / displacement;
 			}
 
-
-			if(characterController.enabled) 
+			if(characterController.enabled)
 				characterController.Move(velocity * Time.fixedDeltaTime);
-
 
 			isGrounded = characterController.isGrounded;
 		}

@@ -27,14 +27,13 @@ namespace WipeOut
 		{
 			if(other.CompareTag("Player"))
 			{
+				// Moves player off screen when sucked into black hole and moves camera
 				cam.GetComponent<CameraController>().enabled = false;
 
-				
-				ragdoll.transform.position = new Vector3(0, 1000,0);
+				ragdoll.transform.position = new Vector3(0, 1000, 0);
 				StartCoroutine(MoveCamera());
 
 				finishedMoving = true;
-
 			}
 		}
 
@@ -42,7 +41,6 @@ namespace WipeOut
 		{
 			float t = 0;
 			float moveTIme = 0.75f;
-
 
 			Vector3 startPos = cam.transform.position;
 			Vector3 endPos = newCameraPos.position;
@@ -64,6 +62,7 @@ namespace WipeOut
 			Cursor.visible = true;
 			SceneManager.LoadScene("Menu");
 		}
+
 		private IEnumerator StartBlackHole()
 		{
 			float t = 0;
@@ -80,27 +79,24 @@ namespace WipeOut
 				t += Time.deltaTime;
 			}
 
+			// Trigger added after the black hole fully grows to prevent an issue of trigger being different size to 
+			// the mesh
 			gameObject.AddComponent<SphereCollider>();
 			gameObject.GetComponent<SphereCollider>().isTrigger = true;
 			hasMoved = true;
 			player.GetComponent<Ragdoll>().ragdollOn = true;
-
-		
 		}
-
 
 		void Start()
 		{
-			
+			// Setting each body part of ragdoll to not use gravity so player wouldn't end up falling in water
 			ragdoll = player.GetComponent<Ragdoll>().rigidbodies[0];
 			for(int i = 0; i < player.GetComponent<Ragdoll>().rigidbodies.Count; i++)
 			{
 				player.GetComponent<Ragdoll>().rigidbodies[i].useGravity = false;
 			}
+
 			StartCoroutine(StartBlackHole());
-
-			
-
 		}
 
 		// Update is called once per frame
@@ -109,12 +105,11 @@ namespace WipeOut
 		{
 			if(hasMoved && !finishedMoving)
 			{
+				// Adds force to ragdoll directly to the middle of black hole
 				Vector3 playerToBlackHole = (transform.position - ragdoll.transform.position).normalized;
-				
-				ragdoll.AddForce(playerToBlackHole * 200.0f, ForceMode.Acceleration);	
+
+				ragdoll.AddForce(playerToBlackHole * 200.0f, ForceMode.Acceleration);
 			}
 		}
-
-		
 	}
 }

@@ -16,6 +16,7 @@ namespace WipeOut
 		{
 			if(other.CompareTag("Player"))
 			{
+				// Disables air vent when the next checkpoint was triggered
 				particles.SetActive(false);
 				airVent.enabled = false;
 			}

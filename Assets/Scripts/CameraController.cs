@@ -19,7 +19,6 @@ namespace WipeOut
 		private float heightOffset = 1.5f;
 		public bool canTurn = true;
 
-
 		Vector3 GetTargetPosition()
 		{
 			return target.position + heightOffset * Vector3.up - new Vector3(0, 0.5f, 0);
@@ -46,7 +45,6 @@ namespace WipeOut
 			}
 
 			// right drag rotates the camera
-
 
 			RaycastHit hit;
 

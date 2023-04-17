@@ -20,17 +20,17 @@ namespace WipeOut
 
 		private void OnCollisionEnter(Collision collision)
 		{
+			// Checking if punching gloves hit player
 			if(collision.gameObject.CompareTag("Player"))
 			{
-				if(collision.gameObject.GetComponent<Ragdoll>()) 
+				if(collision.gameObject.GetComponent<Ragdoll>())
 					collision.gameObject.GetComponent<Ragdoll>().ragdollOn = true;
-				//collision.gameObject.GetComponent<CharacterController>().enabled = false;
-				//collision.gameObject.GetComponentInParent<CharacterController>().enabled = false;
 			}
 		}
 
 		private IEnumerator Retract()
 		{
+			// Slowly moves each glove back to its original position after punching
 			float t = 0;
 			float retractTime = 1.0f;
 
@@ -51,30 +51,31 @@ namespace WipeOut
 		// Start is called before the first frame update
 		void Start()
 		{
+			
+			// Gives each punching glove a random start time to give variety on the timing
 			startPos = transform.localPosition;
-			delay = UnityEngine.Random.Range(10, 100);
-			punchCoolDown = 25.0f;
+			delay = UnityEngine.Random.Range(1, 10);
+			punchCoolDown = 2.5f;
 		}
 
-		// Update is called once per frame
-		void Update()
+		void FixedUpdate()
 		{
-		
+			// Timer cooldown started once retracted
 			if(punchCoolDown > 0 && canPunch)
 				punchCoolDown -= Time.fixedDeltaTime;
 
+			// Adjusting the delay so it fits with the random starting the delay
 			if(delay > 0 && !firstPunch)
 				delay -= Time.fixedDeltaTime;
 
 			if(delay <= 0)
 			{
 				firstPunch = true;
-				
 			}
-			
+
 			if(delay <= 0 || punchCoolDown <= 0)
 			{
-				
+				// Adds high impulse force to simulate a real punch
 				gameObject.GetComponent<Rigidbody>().AddForce(transform.forward * 2000, ForceMode.Impulse);
 				punchCoolDown = 25.0f;
 				delay = 100;
@@ -82,12 +83,11 @@ namespace WipeOut
 
 			if(transform.localPosition.z >= 22.0f)
 			{
+				// Immediately stops the punch after a certain distance and starts retraction
 				canPunch = false;
 
 				gameObject.GetComponent<Rigidbody>().velocity = Vector3.zero;
-				//transform.localPosition = new Vector3(transform.localPosition.x, transform.localPosition.y, 21f);
 				StartCoroutine(Retract());
-
 			}
 		}
 	}

@@ -8,80 +8,73 @@ using UnityEngine;
 
 namespace WipeOut
 {
+	public class TimeTrial : MonoBehaviour
+	{
+		public TextMeshProUGUI hours;
+		public TextMeshProUGUI minutes;
+		public TextMeshProUGUI seconds;
 
+		public Canvas menu;
+		public BlackHole blackHole;
 
-    public class TimeTrial : MonoBehaviour
-    {
-        public TextMeshProUGUI hours;
-        public TextMeshProUGUI minutes;
-        public TextMeshProUGUI seconds;
+		private bool hasFinished;
+		private bool addingSecond;
+		private int m_hours;
+		private int m_minutes;
 
-        public Canvas menu;
-        public BlackHole blackHole;
+		public int m_seconds;
 
-        private bool hasFinished;
-        private bool addingSecond;
-        private int m_hours;
-        private int m_minutes;
+		private void Start()
+		{
+			menu.enabled = false;
+		}
 
-        public int m_seconds;
-        // Start is called before the first frame update
+		private void OnTriggerEnter(Collider other)
+		{
+			if(other.CompareTag("Player"))
+			{
+				hasFinished = true;
+			}
+		}
 
-        private void Start()
-        {
-            menu.enabled = false;
-        }
+		private IEnumerator AddSecond()
+		{
+			addingSecond = true;
 
-        private void OnTriggerEnter(Collider other)
-        {
-            if(other.CompareTag("Player"))
-            {
-                hasFinished = true;
-            }
-        }
+			yield return new WaitForSeconds(1);
 
-        private IEnumerator AddSecond()
-        {
-            addingSecond = true;
+			m_seconds++;
+			addingSecond = false;
+		}
 
-            yield return new WaitForSeconds(1);
+		void FixedUpdate()
+		{
+			if(!hasFinished)
+			{
+				if(!addingSecond)
+					StartCoroutine(AddSecond());
 
-            m_seconds++;
-            addingSecond = false;
-        }
+				if(m_seconds >= 60)
+				{
+					m_seconds = 0;
+					m_minutes++;
+				}
 
+				if(m_minutes >= 60)
+				{
+					m_minutes = 0;
+					m_hours++;
+				}
+			}
 
-        // Update is called once per frame
-        void FixedUpdate()
-        {
-            if(!hasFinished)
-            {
-                if(!addingSecond)
-                    StartCoroutine(AddSecond());
+			if(hasFinished)
+			{
+				blackHole.enabled = true;
+			}
 
-                if(m_seconds >= 60)
-                {
-                    m_seconds = 0;
-                    m_minutes++;
-                }
-
-                if(m_minutes >= 60)
-                {
-                    m_minutes = 0;
-                    m_hours++;
-                }
-            }
-
-            if(hasFinished)
-            {
-                blackHole.enabled = true;
-            }
-
-
-            hours.text = m_hours < 10 ? $"0{m_hours.ToString()}" : m_hours.ToString();
-            minutes.text = m_minutes < 10 ? $"0{m_minutes.ToString()}" : m_minutes.ToString();
-            seconds.text = m_seconds < 10 ? $"0{m_seconds.ToString()}" : m_seconds.ToString();
-            
-        }
-    }
+			hours.text = m_hours < 10 ? $"0{m_hours.ToString()}" : m_hours.ToString();
+			minutes.text = m_minutes < 10 ? $"0{m_minutes.ToString()}" : m_minutes.ToString();
+			seconds.text = m_seconds < 10 ? $"0{m_seconds.ToString()}" : m_seconds.ToString();
+		}
+	}
 }

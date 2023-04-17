@@ -7,15 +7,12 @@ using WipeOut;
 
 namespace WipeOut
 {
-	
 	public class Airvent : MonoBehaviour
 	{
-		// Start is called before the first frame update
-		void Start() { }
-
-		// Update is called once per frame
 		void FixedUpdate()
 		{
+			// Checks to see if there is an object in the box cast and whether the player is in front of the pushable box
+			// and adds force to the chest and turns ragdoll on
 			RaycastHit hit;
 			if(Physics.BoxCast(transform.position - 2 * transform.forward, new Vector3(15, 2, 1), transform.forward, out hit, transform.rotation, 75))
 			{
@@ -25,8 +22,6 @@ namespace WipeOut
 					hit.transform.GetComponent<Ragdoll>().rigidbodies[0].AddForce(transform.forward * 700.0f, ForceMode.Impulse);
 				}
 			}
-
-
 		}
 	}
 }

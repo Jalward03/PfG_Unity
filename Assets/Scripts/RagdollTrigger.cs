@@ -8,17 +8,13 @@ using UnityEngine;
 
 namespace WipeOut
 {
-	
-
-public class RagdollTrigger : MonoBehaviour
-{
-	private void OnTriggerEnter(Collider other)
+	public class RagdollTrigger : MonoBehaviour
 	{
-		Ragdoll ragdoll = other.GetComponentInParent<Ragdoll>();
-		if(ragdoll != null)
-			ragdoll.ragdollOn = true;
+		private void OnTriggerEnter(Collider other)
+		{
+			Ragdoll ragdoll = other.GetComponentInParent<Ragdoll>();
+			if(ragdoll != null)
+				ragdoll.ragdollOn = true;
+		}
 	}
-
-
-}
 }

@@ -8,18 +8,15 @@ using UnityEngine;
 
 namespace WipeOut
 {
-	
-
-public class RagdollCollision : MonoBehaviour
-{
-	private void OnCollisionEnter(Collision collision)
+	public class RagdollCollision : MonoBehaviour
 	{
-		Ragdoll ragdoll = collision.gameObject.GetComponentInParent<Ragdoll>();
-		if(ragdoll != null)
+		private void OnCollisionEnter(Collision collision)
 		{
-			ragdoll.ragdollOn = true;
-
+			Ragdoll ragdoll = collision.gameObject.GetComponentInParent<Ragdoll>();
+			if(ragdoll != null)
+			{
+				ragdoll.ragdollOn = true;
+			}
 		}
 	}
-}
 }
