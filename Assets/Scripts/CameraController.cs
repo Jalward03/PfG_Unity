@@ -18,17 +18,14 @@ namespace WipeOut
 		private float currentDistance = 0;
 		private float heightOffset = 1.5f;
 		public bool canTurn = true;
+		public bool canLookAtPlayer = true;
 
 		Vector3 GetTargetPosition()
 		{
 			return target.position + heightOffset * Vector3.up - new Vector3(0, 0.5f, 0);
 		}
 
-		private void Start()
-		{
-			Cursor.lockState = CursorLockMode.Locked;
-			Cursor.visible = false;
-		}
+	
 
 		void Update()
 		{
@@ -46,18 +43,21 @@ namespace WipeOut
 
 			// right drag rotates the camera
 
-			RaycastHit hit;
-
-			if(Physics.Raycast(GetTargetPosition(), -transform.forward, out hit, distance) && hit.collider.gameObject.layer != LayerMask.NameToLayer("Player"))
+			if(canLookAtPlayer)
 			{
-				currentDistance = hit.distance;
-			}
-			else
-			{
-				currentDistance = Mathf.MoveTowards(currentDistance, distance, Time.deltaTime * pullBackSpeed);
-			}
+				RaycastHit hit;
 
-			transform.position = GetTargetPosition() - currentDistance * transform.forward;
+				if(Physics.Raycast(GetTargetPosition(), -transform.forward, out hit, distance) && hit.collider.gameObject.layer != LayerMask.NameToLayer("Player"))
+				{
+					currentDistance = hit.distance;
+				}
+				else
+				{
+					currentDistance = Mathf.MoveTowards(currentDistance, distance, Time.deltaTime * pullBackSpeed);
+				}
+
+				transform.position = GetTargetPosition() - currentDistance * transform.forward;
+			}
 		}
 	}
 }

@@ -19,7 +19,7 @@ namespace WipeOut
 		public Animator animator;
 		public Vector3 hitDirection;
 		private Ragdoll ragdoll = null;
-		public bool canMove = true;
+		public bool canMove = false;
 		public BlackHole blackHole;
 
 		public Vector3 repsawnPoint;
@@ -42,6 +42,12 @@ namespace WipeOut
 		{
 			moveInput.x = Input.GetAxis("Horizontal");
 			moveInput.y = Input.GetAxis("Vertical");
+
+
+			if(!canMove)
+			{
+				moveInput = new Vector2(0, 0);
+			}
 			jumpInput = Input.GetButton("Jump");
 
 			animator.SetFloat("Left", moveInput.x);
@@ -63,7 +69,7 @@ namespace WipeOut
 			delta = (moveInput.x * cam.right + moveInput.y * camForward) * movementSpeed;
 
 			// Disables turning the player in ragdoll
-			if(!ragdoll.ragdollOn)
+			if(!ragdoll.ragdollOn && canMove)
 				transform.forward = camForward;
 
 			if(isGrounded || moveInput.x != 0 || moveInput.y != 0)
