@@ -14,6 +14,8 @@ namespace WipeOut
 		public TextMeshProUGUI minutes;
 		public TextMeshProUGUI seconds;
 
+
+		public bool timerCanStart;
 		public Canvas menu;
 		public BlackHole blackHole;
 
@@ -51,7 +53,7 @@ namespace WipeOut
 		{
 			if(!hasFinished)
 			{
-				if(!addingSecond)
+				if(!addingSecond && timerCanStart)
 					StartCoroutine(AddSecond());
 
 				if(m_seconds >= 60)

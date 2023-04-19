@@ -18,7 +18,7 @@ namespace Wipeout
 		public Transform startTransform;
 
 		public GameObject hud;
-		
+		public TimeTrial timer;
 		public GameObject partyHat;
 		public GameObject propellerHat;
 		public GameObject cowboyHat;
@@ -55,6 +55,7 @@ namespace Wipeout
 			Cursor.lockState = CursorLockMode.Locked;
 			Cursor.visible = false;
 			hud.SetActive(true);
+			timer.timerCanStart = true;
 			gameObject.SetActive(false);
 		}
 
@@ -62,8 +63,8 @@ namespace Wipeout
 		{
 			propellerHat.SetActive(false);
 			partyHat.SetActive(false);
-		//	cowboyHat.SetActive(false);
-			//sombreroHat.SetActive(false);
+		    cowboyHat.SetActive(false);
+			sombreroHat.SetActive(false);
 		}
 	}
 }

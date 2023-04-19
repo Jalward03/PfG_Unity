@@ -11,4 +11,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Wipeout.unity
     guid: ab5306cea24eff843af812ec65c2fac5
+  - enabled: 1
+    path: Assets/Scenes/Nightmare.unity
+    guid: a7558f2032c73a24b8348ed81abee96f
   m_configObjects: {}

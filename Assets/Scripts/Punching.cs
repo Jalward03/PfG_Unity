@@ -77,8 +77,8 @@ namespace WipeOut
 			{
 				// Adds high impulse force to simulate a real punch
 				gameObject.GetComponent<Rigidbody>().AddForce(transform.forward * 2000, ForceMode.Impulse);
-				punchCoolDown = 25.0f;
-				delay = 100;
+				punchCoolDown = 2.5f;
+				delay = 10;
 			}
 
 			if(transform.localPosition.z >= 22.0f)
