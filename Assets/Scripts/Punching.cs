@@ -43,7 +43,7 @@ namespace WipeOut
 				yield return null;
 
 				t += Time.deltaTime;
-			}
+			} 
 
 			canPunch = true;
 		}
