@@ -1,5 +1,6 @@
 using Cinemachine;
 using TMPro;
+using TreeEditor;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.Pool;
@@ -16,6 +17,8 @@ public class Player : MonoBehaviour
     // Set in inspector
     [SerializeField]
     private CinemachineVirtualCamera _virtualCameraThatOverrides;
+    [SerializeField]
+    private LayerMask _aimingLayerMask = new LayerMask();
 
     private Vector2 _direction;
     private bool _isMoving;
@@ -26,6 +29,7 @@ public class Player : MonoBehaviour
     private float _speed;
     private Vector2 _playerVelocity;
     private Vector2 _smoothedPlayerVelocity;
+    private Vector3 _aimTarget;
 
 
     public float movementSpeed = 1f;
@@ -89,7 +93,48 @@ public class Player : MonoBehaviour
     {
         _speed = _isSprinting ? sprintSpeed : !_isMoving ? 0 : movementSpeed;
 
-        if(!_isAiming)
+
+        _playerVelocity = Vector2.SmoothDamp(_playerVelocity, _direction, ref _smoothedPlayerVelocity, 1);
+
+        Vector3 move = new Vector3(_playerVelocity.x, 0, _playerVelocity.y);
+        move = move.x * _camera.transform.right.normalized + move.z * _camera.transform.forward.normalized;
+        move.y = 0;
+        _characterController.Move(move.normalized * Time.fixedDeltaTime * _speed);
+
+        Vector2 myScreenCenter = new Vector2(Screen.width / 2, Screen.height / 2);
+        Ray ray = _camera.ScreenPointToRay(myScreenCenter);
+        if(Physics.Raycast(ray, out RaycastHit raycastHit, 200, _aimingLayerMask))
+        {
+            _aimTarget = raycastHit.point;
+        }
+        else
+        {
+            _aimTarget = ray.GetPoint(200);
+        }
+
+        _aimTarget.y = transform.position.y;
+        Vector3 aimDirection = (_aimTarget - transform.position).normalized;
+
+        if(move != Vector3.zero && !_isAiming)
+        {
+            transform.forward = move;
+            _playerVelocity.y = 0;
+            _playerVelocity.x = 0;
+        }
+        else if (_isAiming)
+        {
+            transform.forward = Vector3.Lerp(transform.forward, aimDirection, Time.fixedDeltaTime * 20);
+        }
+
+        transform.forward = move;
+        Quaternion rotation = Quaternion.Euler(0, _camera.transform.eulerAngles.y, 0);
+        transform.rotation = Quaternion.Lerp(transform.rotation, rotation, Time.fixedDeltaTime * rotationSpeed);
+    }
+
+    private void Update()
+    {
+
+        if (!_isAiming)
         {
             CasualMovement(Time.fixedDeltaTime);
             SetAnimationActiveLayer(_animator, 1, 0, Time.fixedDeltaTime, 10);
@@ -105,19 +150,7 @@ public class Player : MonoBehaviour
 
         }
 
-
-        _playerVelocity = Vector2.SmoothDamp(_playerVelocity, _direction, ref _smoothedPlayerVelocity, 1);
-
-        Vector3 move = new Vector3(_playerVelocity.x, 0, _playerVelocity.y);
-        move = move.x * _camera.transform.right.normalized + move.z * _camera.transform.forward.normalized;
-        move.y = 0;
-        _characterController.Move(move.normalized * Time.fixedDeltaTime * _speed);
-
-        transform.forward = move;
-        Quaternion rotation = Quaternion.Euler(0, _camera.transform.eulerAngles.y, 0);
-        transform.rotation = Quaternion.Lerp(transform.rotation, rotation, Time.fixedDeltaTime * rotationSpeed);
     }
-
     private void LateUpdate()
     {
         _animator.SetFloat("ForwardMotion", _playerVelocity.y);
