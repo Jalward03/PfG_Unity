@@ -7,6 +7,7 @@ TagManager:
   - Obstacle
   - Box
   - Plank
+  - Ragdoll
   layers:
   - Default
   - TransparentFX

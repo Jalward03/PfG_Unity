@@ -85,7 +85,7 @@ namespace WipeOut
 			if(isGrounded && velocity.y < 0)
 				velocity.y = 0;
 
-			if(!blackHole.hasMoved)
+			if(!blackHole.hasMoved && !ragdoll.ragdollOn)
 				velocity += Physics.gravity * Time.fixedDeltaTime;
 
 			if(!isGrounded)
