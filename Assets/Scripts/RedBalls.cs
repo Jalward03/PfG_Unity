@@ -10,15 +10,13 @@ namespace WipeOut
 {
 	public class RedBalls : MonoBehaviour
 	{
-		[SerializeField] private GameObject player;
 
 		private void OnTriggerEnter(Collider other)
 		{
 			if(other.CompareTag("Player"))
 			{
-				player.GetComponent<Ragdoll>().ragdollOn = true;
-				Vector3 dirToBall = (player.transform.position - gameObject.transform.position).normalized;
-				player.GetComponent<Ragdoll>().rigidbodies[0].AddForce(dirToBall * 100, ForceMode.Impulse);
+				if(other.GetComponent<CharacterMover>())
+					other.GetComponent<CharacterMover>().velocity = other.GetComponent<CharacterMover>().velocity * -1;
 			}
 		}
 	}
