@@ -8,7 +8,7 @@ using UnityEditor;
 
 using UnityEngine.SceneManagement;
 
-namespace Wipeout
+namespace WipeOut
 {
 	public class SceneLoader : MonoBehaviour
 	{

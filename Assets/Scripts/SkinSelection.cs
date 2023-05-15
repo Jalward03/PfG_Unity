@@ -5,7 +5,7 @@ using UnityEngine;
 
 using WipeOut;
 
-namespace Wipeout
+namespace WipeOut
 {
 	public class SkinSelection : MonoBehaviour
 	{
@@ -25,6 +25,7 @@ namespace Wipeout
 		public GameObject sombreroHat;
 		void Awake()
 		{
+			// Disables movement and 3rd person camera
 			cameraController.canTurn = false;
 			cameraController.canLookAtPlayer = false;
 			charMover.canMove = false;
@@ -35,6 +36,7 @@ namespace Wipeout
 
 		public void ChangeHatOnClick(GameObject hat)
 		{
+		// disables all hats and sets new one to true
 			RemoveAllHats();
 			hat.SetActive(true);
 		}
@@ -45,6 +47,7 @@ namespace Wipeout
 		}
 		public void StartGameOnClick()
 		{
+		// Enables player movement and 3rd person camera
 			charMover.canMove = true;
 			cameraController.canTurn = true;
 			cameraController.canLookAtPlayer = true;
